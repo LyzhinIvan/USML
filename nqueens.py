@@ -4,7 +4,7 @@ from collections import defaultdict
 
 class Solver_8_queens:
 
-    def __init__(self, pop_size=500, cross_prob=0.5, mut_prob=0.2, n=8):
+    def __init__(self, pop_size=500, cross_prob=0.7, mut_prob=0.2, n=8):
         self.pop_size = pop_size
         self.cross_prob = cross_prob
         self.mut_prob = mut_prob
@@ -23,7 +23,7 @@ class Solver_8_queens:
         self.mutation_functions['gray-code'] = self.gray_code_mutate
 
     def solve(self, min_fitness=0.9, max_epochs=100, verbose=False,
-              select_method='roulette', cross_method='one-point', mutate_method='change-gen'):
+              select_method='tournament', cross_method='one-point', mutate_method='swap-gens'):
         population = [self.gen_chromosome() for _ in range(self.pop_size)]
         fits = list(map(self.fitness, population))
         epoch = 0
@@ -174,7 +174,7 @@ class Chromosome:
 if __name__ == "__main__":
     solver = Solver_8_queens(pop_size=500, n=20)
     best_fit, epoch, board = solver.solve(min_fitness=1.0, max_epochs=100, verbose=True,
-                                          select_method='rank', cross_method='two-point', mutate_method='gray-code')
+                                          select_method='tournament', cross_method='one-point', mutate_method='swap-gens')
     print('Best solution')
     print('Fitness:', best_fit)
     print('Iterations:', epoch)
